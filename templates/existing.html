@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Live Face Recognition</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      margin-top: 40px;
+      background-color: #f4f4f4;
+    }
+    img {
+      border: 3px solid #444;
+      border-radius: 12px;
+      width: 480px;
+      margin-bottom: 20px;
+    }
+    .button-group {
+      margin-top: 20px;
+    }
+    button {
+      padding: 12px 26px;
+      font-size: 18px;
+      margin: 8px;
+      cursor: pointer;
+      border: none;
+      border-radius: 6px;
+      transition: 0.3s ease;
+    }
+    button:hover {
+      opacity: 0.85;
+    }
+    .recognize-btn {
+      background-color: #4CAF50;
+      color: white;
+    }
+    .stop-btn {
+      background-color: #e53935;
+      color: white;
+    }
+    #result {
+      font-size: 22px;
+      margin-top: 25px;
+      color: #2e7d32;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>🎥 Live Face Recognition</h1>
+
+  <img src="{{ url_for('video_feed') }}" id="video" alt="Live Stream"><br>
+
+  <div class="button-group">
+    <form method="POST" action="{{ url_for('recognize_live') }}" style="display:inline;">
+      <button type="submit" class="recognize-btn">🔍 Recognize</button>
+    </form>
+
+    <form method="POST" action="{{ url_for('stop_camera') }}" style="display:inline;">
+      <button type="submit" class="stop-btn">🛑 Stop Camera</button>
+    </form>
+    <!-- Back to Home -->
+<form method="POST" action="{{ url_for('stop_camera') }}">
+  <button type="submit" style="margin-top: 10px;">🔙 Back to Home</button>
+</form>
+  </div>
+
+  <div id="result">
+    {% if result %}
+      <strong>{{ result }}</strong>
+    {% endif %}
+  </div>
+
+</body>
+</html>

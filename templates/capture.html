@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Register New User</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      padding: 20px;
+    }
+    video {
+      width: 400px;
+      border: 2px solid #333;
+      border-radius: 10px;
+    }
+    button {
+      padding: 10px 20px;
+      margin: 10px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+    input {
+      padding: 8px;
+      font-size: 16px;
+      margin-top: 10px;
+    }
+    #status {
+      color: green;
+      font-weight: bold;
+      margin-top: 20px;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>📸 Register New User</h1>
+  <input type="text" id="name" placeholder="Enter your name" />
+  <br><br>
+  <video id="video" autoplay></video>
+  <br>
+  <button onclick="capture('front')">Capture Front</button>
+  <button onclick="capture('left')">Capture Left</button>
+  <button onclick="capture('right')">Capture Right</button>
+  <div id="status">Waiting for input...</div>
+
+  <script>
+    const video = document.getElementById('video');
+    const status = document.getElementById('status');
+    let name = "";
+
+    navigator.mediaDevices.getUserMedia({ video: true })
+      .then(stream => {
+        video.srcObject = stream;
+      })
+      .catch(err => {
+        console.error("Camera error:", err);
+        status.innerText = "❌ Camera access denied.";
+      });
+
+    function capture(view) {
+      name = document.getElementById('name').value.trim();
+      if (!name) {
+        alert("Please enter your name before capturing.");
+        return;
+      }
+
+      const canvas = document.createElement('canvas');
+      canvas.width = video.videoWidth;
+      canvas.height = video.videoHeight;
+      const ctx = canvas.getContext('2d');
+      ctx.drawImage(video, 0, 0);
+
+      canvas.toBlob(blob => {
+        const formData = new FormData();
+        formData.append("name", name);
+        formData.append("view", view);
+        formData.append("image", blob);
+
+        fetch('/upload_view', {
+          method: "POST",
+          body: formData
+        })
+        .then(res => res.json())
+        .then(data => {
+          if (data.success) {
+            status.innerText = `✅ ${view} image uploaded successfully!`;
+          } else {
+            status.innerText = `⚠️ Error: ${data.error}`;
+          }
+        })
+        .catch(err => {
+          status.innerText = "❌ Upload failed";
+          console.error(err);
+        });
+      }, 'image/jpeg');
+    }
+  </script>
+
+</body>
+</html>
+<!-- This HTML template is for the "Register New User" page in a face recognition app. -->
+<!-- It allows users to capture images from their webcam for different views (front, left, right
