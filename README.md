@@ -79,25 +79,9 @@ python app.py
 
 ---
 
-## 📸 Screenshots
 
-| New User View                          | Live Recognition View                |
-|----------------------------------------|--------------------------------------|
-| ![Register](https://via.placeholder.com/400x200?text=Registration+Page) | ![Recognize](https://via.placeholder.com/400x200?text=Recognition+In+Action) |
 
----
 
-## 📈 Feature Roadmap
-
-| Feature                              | Status       |
-|--------------------------------------|--------------|
-| Password/OTP login                   | 🚧 Planned   |
-| Firebase/MongoDB for cloud storage   | 🚧 Planned   |
-| Deep learning model for embeddings   | 🚧 Planned   |
-| Mobile-friendly web interface        | 🚧 Planned   |
-| Docker container support             | 🚧 Planned   |
-
----
 
 ## 🤝 Contributing
 
